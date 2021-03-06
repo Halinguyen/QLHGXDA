@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QLHGXDA.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,7 +12,14 @@ namespace QLHGXDA.Controllers
         // GET: QLNhanvien
         public ActionResult Index()
         {
-            return View();
+            if (Session["IsLogin"].Equals(true))
+            {
+                tbl_Nhanvien nhanvien = new tbl_Nhanvien();
+                ViewBag.danhsachNhanvien = nhanvien.GetNhanvienByPK(0);
+                return View();
+            }
+            else
+                return RedirectToAction("Index", "Login");
         }
     }
 }

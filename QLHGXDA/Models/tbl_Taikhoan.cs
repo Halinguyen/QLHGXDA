@@ -4,16 +4,26 @@ namespace QLHGXDA.Models
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using System.Configuration;
+    using System.Data;
     using System.Data.Entity.Spatial;
+    using System.Data.SqlClient;
 
     public partial class tbl_Taikhoan
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tbl_Taikhoan()
         {
-            tbl_Khachhang = new HashSet<tbl_Khachhang>();
-            tbl_Nhanvien = new HashSet<tbl_Nhanvien>();
-            tbl_Phanquyen = new HashSet<tbl_Phanquyen>();
+           
+        }
+
+        public tbl_Taikhoan(string pK_iTaikhoanID, string sUsername, string sPassword, string tNgaytao, string bTrangthai)
+        {
+            PK_iTaikhoanID =Convert.ToInt64( pK_iTaikhoanID);
+            this.sUsername = sUsername;
+            this.sPassword = sPassword;
+            this.tNgaytao = Convert.ToDateTime( tNgaytao);
+            this.bTrangthai = Convert.ToBoolean( bTrangthai);
         }
 
         [Key]
@@ -39,5 +49,59 @@ namespace QLHGXDA.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tbl_Phanquyen> tbl_Phanquyen { get; set; }
+        SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DB"].ConnectionString);
+        SqlDataReader dar;
+        SqlCommand cmd;
+        public List<tbl_Taikhoan> GetTaikhoanByPK(long taikhoanID)
+        {
+            List<tbl_Taikhoan> dsTaikhoan = new List<tbl_Taikhoan>();
+            cmd = new SqlCommand("spGetTaikhoanByPK", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@taikhoanID", taikhoanID);
+            conn.Open();
+            dar = cmd.ExecuteReader();
+            if (dar.HasRows)
+            {
+                while (dar.Read())
+                {
+                    tbl_Taikhoan tk = new tbl_Taikhoan(
+                      dar["PK_iTaikhoanID"].ToString(),
+                      dar["sUsername"].ToString(),
+                      dar["sPassword"].ToString(),
+                      dar["tNgaytao"].ToString(),
+                      dar["bTrangthai"].ToString());
+                    dsTaikhoan.Add(tk);
+                }
+            }
+            conn.Close();
+            return dsTaikhoan;
+        }
+
+        public List<tbl_Taikhoan> GetTaikhoanByUsernameandPassword(string username, string pass)
+        {
+            List<tbl_Taikhoan> dsTaikhoan = new List<tbl_Taikhoan>();
+            cmd = new SqlCommand("sp_GetTaikhoanByUaP", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@username", username);
+            cmd.Parameters.AddWithValue("@password", pass);
+            conn.Open();
+            dar = cmd.ExecuteReader();
+            if (dar.HasRows)
+            {
+                while (dar.Read())
+                {
+                    tbl_Taikhoan tk = new tbl_Taikhoan(
+                      dar["PK_iTaikhoanID"].ToString(),
+                      dar["sUsername"].ToString(),
+                      dar["sPassword"].ToString(),
+                      dar["tNgaytao"].ToString(),
+                      dar["bTrangthai"].ToString());
+                    dsTaikhoan.Add(tk);
+                }
+            }
+            conn.Close();
+            return dsTaikhoan;
+
+        }
     }
 }

@@ -4,14 +4,27 @@ namespace QLHGXDA.Models
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using System.Configuration;
+    using System.Data;
     using System.Data.Entity.Spatial;
+    using System.Data.SqlClient;
 
     public partial class tbl_Giave
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tbl_Giave()
         {
-            tbl_CTHD = new HashSet<tbl_CTHD>();
+            
+        }
+        public tbl_Giave(string pK_iGiaveID, string mGia, string fK_iLoaixeID, string fK_iLoaiveID, string fK_iKhunggioID, string tNgayApdung)
+        {
+            PK_iGiaveID = Convert.ToInt16(pK_iGiaveID);
+            this.mGia = Convert.ToDecimal(mGia);
+            FK_iLoaixeID = Convert.ToByte
+                (fK_iLoaixeID);
+            FK_iLoaiveID = Convert.ToByte(fK_iLoaiveID);
+            FK_iKhunggioID = Convert.ToInt16( fK_iKhunggioID);
+            this.tNgayApdung = Convert.ToDateTime(tNgayApdung);
         }
 
         [Key]
@@ -36,5 +49,34 @@ namespace QLHGXDA.Models
         public virtual tbl_Loaive tbl_Loaive { get; set; }
 
         public virtual tbl_Loaixe tbl_Loaixe { get; set; }
+
+        SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DB"].ConnectionString);
+        SqlDataReader dar;
+        SqlCommand cmd;
+        public List<tbl_Giave> GetGiaveByPK(short giaveID)
+        {
+            List<tbl_Giave> dsGiave = new List<tbl_Giave>();
+            cmd = new SqlCommand("sp_GetGiaveByPK", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@giaveID", giaveID);
+            conn.Open();
+            dar = cmd.ExecuteReader();
+            if (dar.HasRows)
+            {
+                while (dar.Read())
+                {
+                    tbl_Giave gv = new tbl_Giave(
+                      dar["PK_iGiaveID"].ToString(),
+                      dar["mGia"].ToString(),
+                      dar["FK_iLoaixeID"].ToString(),
+                      dar["FK_iLoaiveID"].ToString(),
+                      dar["FK_iKhunggioID"].ToString(),
+                      dar["tNgayApdung"].ToString());
+                    dsGiave.Add(gv);
+                }
+            }
+            conn.Close();
+            return dsGiave;
+        }
     }
 }

@@ -3,6 +3,52 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
+@using QLHGXDA.Models;
 
-<h2>Index</h2>
+<main>
+    <div class="container-fluid">
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table mr-1"></i>
+                Quản lý khu để xe
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <button type="button" class="btn btn-success" style="margin-bottom: 20px;" data-target="#themModal" data-toggle="modal">Thêm mới</button>
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Tên khu để xe</th>
+                                <th>Loại xe</th>
+                                <th>Xử lý</th>
+
+                            </tr>
+                        </thead>
+                        <tbody id="tbody">
+                            @{int i = 0;}
+                            @foreach ( tbl_Khudexe kdx in @ViewBag.dskhudexe)
+                            {
+                                <tr>
+                                    @{i++;}
+                                    <td>@i</td>
+                                    <td>@kdx.sTenkhu</td>
+                                    <td>
+                                        @if (kdx.tbl_Loaixe != null)
+                                        {
+                                            <span>@kdx.tbl_Loaixe.sTenloaixe</span>
+                                        }
+
+                                    </td>
+
+                                    <td><button class="btnSua" data-toggle="modal" data-target="#suaModal" value="@kdx.PK_iKhudexeID"><i class="fas fa-edit"></i></button> <button id="btnXoa" value="@kdx.PK_iKhudexeID"><i class=" fas fa-trash-alt"></i></button> </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
 

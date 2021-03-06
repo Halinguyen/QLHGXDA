@@ -4,14 +4,25 @@ namespace QLHGXDA.Models
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using System.Configuration;
+    using System.Data;
     using System.Data.Entity.Spatial;
+    using System.Data.SqlClient;
 
     public partial class tbl_Xe
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tbl_Xe()
         {
-            tbl_Xeravao = new HashSet<tbl_Xeravao>();
+           
+        }
+
+        public tbl_Xe(string pK_iXeID, string fK_iLoaixeID, string sBiensoxe, string sAnhxe)
+        {
+            PK_iXeID = Convert.ToInt64( pK_iXeID);
+            FK_iLoaixeID = Convert.ToByte( fK_iLoaixeID);
+            this.sBiensoxe = sBiensoxe;
+            this.sAnhxe = sAnhxe;
         }
 
         [Key]
@@ -31,5 +42,31 @@ namespace QLHGXDA.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tbl_Xeravao> tbl_Xeravao { get; set; }
+        SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DB"].ConnectionString);
+        SqlDataReader dar;
+        SqlCommand cmd;
+        public List<tbl_Xe> GetXeByPK(long xeID)
+        {
+            List<tbl_Xe> dsXe = new  List<tbl_Xe>();
+            cmd = new SqlCommand("sp_GetXeByPK", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@xeID", xeID);
+            conn.Open();
+            dar = cmd.ExecuteReader();
+            if (dar.HasRows)
+            {
+                while (dar.Read())
+                {
+                    tbl_Xe xe = new tbl_Xe(
+                      dar["PK_iXeID"].ToString(),
+                      dar["FK_iLoaixeID"].ToString(),                                            
+                      dar["sBiensoxe"].ToString(),
+                      dar["sAnhxe"].ToString());
+                    dsXe.Add(xe);
+                }
+            }
+            conn.Close();
+            return dsXe;
+        }
     }
 }

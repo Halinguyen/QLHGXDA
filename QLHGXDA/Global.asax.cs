@@ -17,5 +17,12 @@ namespace QLHGXDA
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
+        protected void Session_Start()
+        {
+            Session["username"] = "";
+            Session["password"] = "";
+            Session["userID"] = 0;
+            Session["IsLogin"] = true;
+        }
     }
 }

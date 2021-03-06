@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QLHGXDA.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,7 +12,16 @@ namespace QLHGXDA.Controllers
         // GET: QLQuyen
         public ActionResult Index()
         {
-            return View();
+            if (Session["IsLogin"].Equals(true))
+            {
+                tbl_Quyen quyen = new tbl_Quyen();
+                DB db = new DB();
+                List<tbl_Quyen> dsQuyen = db.tbl_Quyen.ToList();
+                ViewBag.dsQuyen = dsQuyen;
+                return View();
+            }
+            else
+                return RedirectToAction("Index", "Login");
         }
     }
 }

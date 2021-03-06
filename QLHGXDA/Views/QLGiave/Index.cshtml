@@ -4,5 +4,70 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h2>Index</h2>
+@using QLHGXDA.Models;
+
+<main>
+    <div class="container-fluid">
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table mr-1"></i>
+                Quản lý giá vé
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <button type="button" class="btn btn-success" style="margin-bottom: 20px;" data-target="#themModal" data-toggle="modal">Thêm mới</button>
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Loại vé</th>
+                                <th>Loại xe</th>
+                                <th>Khung giờ</th>
+                                <th>Giá</th>
+                                <th>Xử lý</th>
+
+                            </tr>
+                        </thead>
+                        <tbody id="tbody">
+                            @{int i = 0;}
+                            @foreach (tbl_Giave gv in @ViewBag.dsGiave)
+                            {
+                            <tr>
+                                @{i++;}
+                                <td>@i</td>
+                                <td>
+                                    @if (gv.tbl_Loaive != null)
+                                    {
+                                        <span>@gv.tbl_Loaive.sTenloaive</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (gv.tbl_Loaixe != null)
+                                    {
+                                        <span>@gv.tbl_Loaixe.sTenloaixe</span>
+                                    }
+
+                                </td>
+                                <td>
+                                    @if (gv.tbl_Khunggio != null)
+                                    {
+                                        <span>@gv.tbl_Khunggio.tGiobatdau - @gv.tbl_Khunggio.tGioketthuc</span>
+                                    }
+
+                                </td>
+                                <td>
+                                    @gv.mGia
+                                </td>
+
+                                <td><button class="btnSua" data-toggle="modal" data-target="#suaModal" value="@gv.PK_iGiaveID"><i class="fas fa-edit"></i></button> <button id="btnXoa" value="@gv.PK_iGiaveID"><i class=" fas fa-trash-alt"></i></button> </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
 
