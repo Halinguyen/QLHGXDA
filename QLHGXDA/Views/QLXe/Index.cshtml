@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutNhanvien.cshtml";
+}
+@using QLHGXDA.Models;
+
+
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-table mr-1"></i>
+        Danh sách xe
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <button type="button" class="btn btn-success" style="margin-bottom: 20px;" data-toggle="modal" data-target="#ModalThem">Thêm mới</button>
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Loại xe</th>
+                        <th>Hình ảnh xe</th>
+                        <th>Biển số xe</th>
+                        <th>Mã vé xe</th>
+                        <th>Xử lý</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                    @{int i = 0;}
+                    @foreach (var xe in @ViewBag.dsXe)
+                    {
+                        <tr>
+                            @{i++;}
+                            <td>@i</td>
+                            <td>
+                                @xe.sTenloaixe
+                            </td>
+                            <td>@xe.sAnhxe</td>
+                            <td>@xe.sBiensoxe</td>
+                            <td>
+                                @xe.sMasove
+                            </td>
+                            <td><button class="btnEdit" data-toggle="modal" data-target="#ModalSua" value="@xe.PK_iXeID"><i class="fas fa-edit"></i></button> <i class="fas fa-toggle-on" style="font-size:20px"></i></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
