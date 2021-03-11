@@ -22,7 +22,7 @@ namespace QLHGXDA
             Session["username"] = "";
             Session["password"] = "";
             Session["userID"] = 0;
-            Session["IsLogin"] = true;
+            Session["IsLogin"] = false;
         }
     }
 }

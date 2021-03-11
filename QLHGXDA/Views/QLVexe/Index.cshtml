@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutNhanvien.cshtml";
+}
+@using QLHGXDA.Models;
+
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-table mr-1"></i>
+        Danh sách vé xe
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <button type="button" class="btn btn-success" style="margin-bottom: 20px;" data-toggle="modal" data-target="#exampleModal">Thêm mới</button>
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Mã số vé</th>
+                        <th>Ngày tạo</th>
+                        <th>Ngày hết hạn</th>
+                        <th>Trạng thái hoạt động</th>
+                        <th>Xử lý</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                    @{ int i = 0;}
+                    @foreach (tbl_Vexe vx in @ViewBag.dsVexe)
+                    {
+                        <tr>
+                            @{ i++;}
+                            <td>@i</td>
+                            <td>@vx.sMasove</td>
+                            <td>@Convert.ToDateTime(@vx.tNgaytao).ToString("dd/MM/yyyy")</td>
+                            <td>@Convert.ToDateTime(@vx.tNgayhethan).ToString("dd/MM/yyyy")</td>
+                            <td>
+                                @*<label class="switch">
+                                    <input type="checkbox" class="txtTrangthaiSua" @(Convert.ToBoolean(@vx.iTrangthai) == true ? "checked" : string.Empty) onchange="Chuyentrangthai(@vx.PK_iVeID,@vx.bTrangthai);">
+                                    <span class="slider round"></span>
+                                </label>*@
+                            </td>
+                            <td><button class="btnSua" data-toggle="modal" value="@vx.PK_iVeID" data-target="#modalSua"><i class="fas fa-edit"></i></button> </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

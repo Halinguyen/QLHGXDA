@@ -63,5 +63,29 @@ namespace QLHGXDA.Models
             conn.Close();
             return dsPhanquyen;
         }
+        public List<tbl_Phanquyen> GetPhanquyenByFK_iTaikhoanID (long taikhoanID)
+        {
+            List<tbl_Phanquyen> dsPhanquyen = new List<tbl_Phanquyen>();
+            cmd = new SqlCommand("sp_GetPhanquyenByFK_iTaikhoanID", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@taikhoanID", taikhoanID);
+            conn.Open();
+            dar = cmd.ExecuteReader();
+            if (dar.HasRows)
+            {
+                while (dar.Read())
+                {
+                    tbl_Phanquyen pq = new tbl_Phanquyen(
+                      dar["PK_iPhanquyenID"].ToString(),
+                      dar["FK_iQuyenID"].ToString(),
+                        dar["FK_iTaikhoanID"].ToString(),
+                      dar["tNgaybatdau"].ToString(),
+                      dar["tNgayhethan"].ToString());
+                    dsPhanquyen.Add(pq);
+                }
+            }
+            conn.Close();
+            return dsPhanquyen;
+        }
     }
 }

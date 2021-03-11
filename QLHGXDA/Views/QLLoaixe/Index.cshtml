@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutNhanvien.cshtml";
+}
+@using QLHGXDA.Models;
+
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-table mr-1"></i>
+        Danh sách loại xe
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Tên loại xe</th>
+                        <th>Xử lý</th>
+
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                    @{int i = 0;}
+                    @foreach (tbl_Loaixe lx in @ViewBag.dsLoaixe)
+                    {
+                        <tr>
+                            @{i++;}
+                            <td>@i</td>
+                            <td>@lx.sTenloaixe</td>
+
+                            <td><button class="btnSua" value="@lx.PK_iLoaixeID"><i class="fas fa-edit"></i></button> <button class="btnXoa" value="@lx.PK_iLoaixeID"><i class=" fas fa-trash-alt"></i></button> </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td colspan="2">
+                            <input class="form-control py-4" id="inputTenloaixe" type="text" placeholder="Nhập tên loại xe" />
+                        </td>
+                        <td><button id="btnThem"><i class="fas fa-plus-square icon"></i></button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
