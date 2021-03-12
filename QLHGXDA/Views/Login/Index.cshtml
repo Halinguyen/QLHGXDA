@@ -1,65 +1,12 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>Page Title - SB Admin</title>
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
-    <link href="~/Content/styles.css" rel="stylesheet" />
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
-    <style>
-        .navbar navbar-inverse navbar-fixed-top{
-            display:none ;
-        }
-    </style>
-     
-    <script>
-        $(document).ready(function () {
-            var username;
-            var password;
-            $(document).on('click', '#btnLogin', function () {
-                 username = $('#inputEmailAddress').val();
-                 password = $('#inputPassword').val();
-                const data = {
-                    tendangnhap: $('#inputEmailAddress').val(),
-                    matkhau: $('#inputPassword').val()
-                }
-                if (username.length == 0 || password.length == 0) {
-                    alert('Bạn vui lòng nhập đủ dữ liệu !');
-                    return false;
-                }
-                else {
-                    $.ajax({
-                        url: location.pathname + '/Dangnhap',
-                        type: 'POST',
-                        data: data,
-                    }).done(function (res) {
-                        switch (res) {
-                            case "True1":
-                                window.location.href = "QLKhudexe/Index";
-                                break;
-                            case "True2":
-                                window.location.href = "QLXe/Index";
-                                break;
-                            case "True3":
-                                window.location.href = "QLXeravao/Index";
-                                break;
-                            case "Sai":
-                                alert('Sai tên đăng nhập hoặc mật khẩu :(');
-                                break;
-                        }
-                    });
-                }
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutKhachhang.cshtml";
+}
+@using QLHGXDA.Models;
 
-                });
-            });
-    </script>
-</head>
+
+<!DOCTYPE html>
+<html lang="en">
 <body class="bg-primary">
     <div id="layoutAuthentication">
         <div id="layoutAuthentication_content">
@@ -73,7 +20,7 @@
                                     <form>
                                         <div class="form-group">
                                             <label class="small mb-1" for="inputEmailAddress">Tên đăng nhập</label>
-                                            <input class="form-control py-4" id="inputEmailAddress"  placeholder="Nhập tên đăng nhập" required />
+                                            <input class="form-control py-4" id="inputEmailAddress" placeholder="Nhập tên đăng nhập" required />
                                         </div>
                                         <div class="form-group">
                                             <label class="small mb-1" for="inputPassword">Mật khẩu</label>
