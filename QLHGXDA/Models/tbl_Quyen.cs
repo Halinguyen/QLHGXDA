@@ -61,5 +61,76 @@ namespace QLHGXDA.Models
             conn.Close();
             return dsQuyen;
         }
+
+        public bool InsertQuyen(string tenquyen, string mota)
+        {
+            bool ketqua = false;
+            try
+            {
+                SqlCommand cmd = new SqlCommand("sp_Insertquyen", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@tenquyen", tenquyen);
+                cmd.Parameters.AddWithValue("@mota", mota);
+                conn.Open();
+                int i = cmd.ExecuteNonQuery();
+                if (i > 0)
+                    ketqua = true;
+                else
+                    ketqua = false;
+            }
+            catch (Exception ex)
+            {
+                ketqua = false;
+                throw new ApplicationException("ERROR: " + ex);
+            }
+            return ketqua;
+        }
+
+        public bool UpdateQuyen( short quyenID,string tenquyen, string mota)
+        {
+            bool ketqua = false;
+            try
+            {
+                SqlCommand cmd = new SqlCommand("sp_UpdateQuyen", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@maquyen", quyenID);
+                cmd.Parameters.AddWithValue("@tenquyen", tenquyen);
+                cmd.Parameters.AddWithValue("@mota", mota);
+                conn.Open();
+                int i = cmd.ExecuteNonQuery();
+                if (i > 0)
+                    ketqua = true;
+                else
+                    ketqua = false;
+            }
+            catch (Exception ex)
+            {
+                ketqua = false;
+                throw new ApplicationException("ERROR: " + ex);
+            }
+            return ketqua;
+        }
+        public bool DeleteQuyen(short quyenID)
+        {
+            bool ketqua = false;
+            try
+            {
+                SqlCommand cmd = new SqlCommand("sp_DeleteQuyen", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@maquyen", quyenID);
+                conn.Open();
+                int i = cmd.ExecuteNonQuery();
+                if (i > 0)
+                    ketqua = true;
+                else
+                    ketqua = false;
+            }
+            catch (Exception ex)
+            {
+                ketqua = false;
+                throw new ApplicationException("ERROR: " + ex);
+            }
+            return ketqua;
+        }
     }
 }

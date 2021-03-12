@@ -102,5 +102,93 @@ namespace QLHGXDA.Models
             conn.Close();
             return dsNhanvien;
         }
+
+        public bool InsertNhanvien(string hoten, string sdt, string diachi, bool gioitinh, string socmnd, DateTime ngaysinh, DateTime ngayvaolam, byte trangthailamviec, long taikhoanID)
+        {
+            bool ketqua = false;
+            try
+            {
+                SqlCommand cmd = new SqlCommand("sp_InsertNhanvien", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@tennv", hoten);
+                cmd.Parameters.AddWithValue("@sodt", sdt);
+                cmd.Parameters.AddWithValue("@diachi", diachi);
+                cmd.Parameters.AddWithValue("@gioitinh", gioitinh);
+                cmd.Parameters.AddWithValue("@soCMND", socmnd);
+                cmd.Parameters.AddWithValue("@ngaysinh", ngaysinh);
+                cmd.Parameters.AddWithValue("@ngayvaolam", ngayvaolam);
+                cmd.Parameters.AddWithValue("@trangthailamviec", trangthailamviec);
+                cmd.Parameters.AddWithValue("@mataikhioan", taikhoanID);
+                conn.Open();
+                int i = cmd.ExecuteNonQuery();
+                if (i > 0)
+                    ketqua = true;
+                else
+                    ketqua = false;
+            }
+            catch (Exception ex)
+            {
+                ketqua = false;
+                throw new ApplicationException("ERROR: " + ex);
+            }
+            return ketqua;
+        }
+
+        public bool UpdateNhanvien(short nhanvienID,string hoten, string sdt, string diachi, bool gioitinh, string socmnd, DateTime ngaysinh, DateTime ngayvaolam, byte trangthailamviec, long taikhoanID)
+        {
+            bool ketqua = false;
+            try
+            {
+                SqlCommand cmd = new SqlCommand("sp_UpdateNhanvien", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+               
+                     cmd.Parameters.AddWithValue("@manhanvien", nhanvienID);
+                cmd.Parameters.AddWithValue("@tennv", hoten);
+                cmd.Parameters.AddWithValue("@sodt", sdt);
+                cmd.Parameters.AddWithValue("@diachi", diachi);
+                cmd.Parameters.AddWithValue("@gioitinh", gioitinh);
+                cmd.Parameters.AddWithValue("@soCMND", socmnd);
+                cmd.Parameters.AddWithValue("@ngaysinh", ngaysinh);
+                cmd.Parameters.AddWithValue("@ngayvaolam", ngayvaolam);
+                cmd.Parameters.AddWithValue("@trangthailamviec", trangthailamviec);
+                cmd.Parameters.AddWithValue("@mataikhioan", taikhoanID);
+                conn.Open();
+                int i = cmd.ExecuteNonQuery();
+                if (i > 0)
+                    ketqua = true;
+                else
+                    ketqua = false;
+            }
+            catch (Exception ex)
+            {
+                ketqua = false;
+                throw new ApplicationException("ERROR: " + ex);
+            }
+            return ketqua;
+        }
+
+
+        public bool DeleteNhanvien(short nhanvienID)
+        {
+            bool ketqua = false;
+            try
+            {
+                SqlCommand cmd = new SqlCommand("sp_DeleteNhanvien", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@manhanvien", nhanvienID);
+                conn.Open();
+                int i = cmd.ExecuteNonQuery();
+                if (i > 0)
+                    ketqua = true;
+                else
+                    ketqua = false;
+            }
+            catch (Exception ex)
+            {
+                ketqua = false;
+                throw new ApplicationException("ERROR: " + ex);
+            }
+            return ketqua;
+        }
     }
 }

@@ -73,5 +73,83 @@ namespace QLHGXDA.Models
             conn.Close();
             return dsXeravao;
         }
+
+        public bool InsertXeravao(long xeID, long vexeID, short nhanvienID, DateTime thoigianvao, DateTime thoigianra)
+        {
+            bool ketqua = false;
+            try
+            {
+                SqlCommand cmd = new SqlCommand("sp_InsertXeravao", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@maxe", xeID);
+                cmd.Parameters.AddWithValue("@mavexe", vexeID);
+                cmd.Parameters.AddWithValue("@manhanvien", nhanvienID);
+                cmd.Parameters.AddWithValue("@thoigianvao", thoigianvao);
+                cmd.Parameters.AddWithValue("@thoigianra", thoigianra);
+                conn.Open();
+                int i = cmd.ExecuteNonQuery();
+                if (i > 0)
+                    ketqua = true;
+                else
+                    ketqua = false;
+            }
+            catch (Exception ex)
+            {
+                ketqua = false;
+                throw new ApplicationException("ERROR: " + ex);
+            }
+            return ketqua;
+        }
+
+        public bool UpdateXeravao(long xeravaoID,long xeID, long vexeID, short nhanvienID, DateTime thoigianvao, DateTime thoigianra)
+        {
+            bool ketqua = false;
+            try
+            {
+                SqlCommand cmd = new SqlCommand("sp_UpdateXeravao", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@maxeravao", xeravaoID);
+                cmd.Parameters.AddWithValue("@maxe", xeID);
+                cmd.Parameters.AddWithValue("@mavexe", vexeID);
+                cmd.Parameters.AddWithValue("@manhanvien", nhanvienID);
+                cmd.Parameters.AddWithValue("@thoigianvao", thoigianvao);
+                cmd.Parameters.AddWithValue("@thoigianra", thoigianra);
+                conn.Open();
+                int i = cmd.ExecuteNonQuery();
+                if (i > 0)
+                    ketqua = true;
+                else
+                    ketqua = false;
+            }
+            catch (Exception ex)
+            {
+                ketqua = false;
+                throw new ApplicationException("ERROR: " + ex);
+            }
+            return ketqua;
+        }
+
+        public bool DeleteXeravao(long xeravaoID)
+        {
+            bool ketqua = false;
+            try
+            {
+                SqlCommand cmd = new SqlCommand("sp_DeleteXeravao", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@maxeravao", xeravaoID);
+                conn.Open();
+                int i = cmd.ExecuteNonQuery();
+                if (i > 0)
+                    ketqua = true;
+                else
+                    ketqua = false;
+            }
+            catch (Exception ex)
+            {
+                ketqua = false;
+                throw new ApplicationException("ERROR: " + ex);
+            }
+            return ketqua;
+        }
     }
 }

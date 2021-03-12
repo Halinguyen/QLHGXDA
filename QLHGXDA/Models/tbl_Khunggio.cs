@@ -59,5 +59,81 @@ namespace QLHGXDA.Models
             conn.Close();
             return dsKhunggio;
         }
+
+
+        public bool InsertKhunggio(DateTime giobatdau, DateTime gioketthuc)
+        {
+            bool ketqua = false;
+            try
+            {
+                SqlCommand cmd = new SqlCommand("sp_InsertKhunggio", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@giobatdau", giobatdau);
+                cmd.Parameters.AddWithValue("@gioketthuc", gioketthuc);
+                conn.Open();
+                int i = cmd.ExecuteNonQuery();
+                if (i > 0)
+                    ketqua = true;
+                else
+                    ketqua = false;
+            }
+            catch (Exception ex)
+            {
+                ketqua = false;
+                throw new ApplicationException("ERROR: " + ex);
+            }
+            return ketqua;
+        }
+
+
+
+        public bool UpdateKhunggio(short khunggioID,DateTime giobatdau, DateTime gioketthuc)
+        {
+            bool ketqua = false;
+            try
+            {
+                SqlCommand cmd = new SqlCommand("sp_UpdateKhunggio", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@makhunggio", khunggioID);
+                cmd.Parameters.AddWithValue("@giobatdau", giobatdau);
+                cmd.Parameters.AddWithValue("@gioketthuc", gioketthuc);
+                conn.Open();
+                int i = cmd.ExecuteNonQuery();
+                if (i > 0)
+                    ketqua = true;
+                else
+                    ketqua = false;
+            }
+            catch (Exception ex)
+            {
+                ketqua = false;
+                throw new ApplicationException("ERROR: " + ex);
+            }
+            return ketqua;
+        }
+
+
+        public bool DeleteKhunggio(short khunggioID)
+        {
+            bool ketqua = false;
+            try
+            {
+                SqlCommand cmd = new SqlCommand("sp_DeleteKhunggio", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@makhunggio", khunggioID);               
+                conn.Open();
+                int i = cmd.ExecuteNonQuery();
+                if (i > 0)
+                    ketqua = true;
+                else
+                    ketqua = false;
+            }
+            catch (Exception ex)
+            {
+                ketqua = false;
+                throw new ApplicationException("ERROR: " + ex);
+            }
+            return ketqua;
+        }
     }
 }

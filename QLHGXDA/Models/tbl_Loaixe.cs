@@ -64,5 +64,76 @@ namespace QLHGXDA.Models
             conn.Close();
             return dsLoaixe;
         }
+
+        public bool InsertLoaixe(string  tenloaixe)
+        {
+            bool ketqua = false;
+            try
+            {
+                SqlCommand cmd = new SqlCommand("sp_InsertLoaixe", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@tenloaixe", tenloaixe);
+                conn.Open();
+                int i = cmd.ExecuteNonQuery();
+                if (i > 0)
+                    ketqua = true;
+                else
+                    ketqua = false;
+            }
+            catch (Exception ex)
+            {
+                ketqua = false;
+                throw new ApplicationException("ERROR: " + ex);
+            }
+            return ketqua;
+        }
+
+        public bool UpdateLoaixe(byte loaixeID,string tenloaixe)
+        {
+            bool ketqua = false;
+            try
+            {
+                SqlCommand cmd = new SqlCommand("sp_UpdateLoaixe", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@maloaixe", loaixeID);
+                cmd.Parameters.AddWithValue("@tenloaixe", tenloaixe);
+                conn.Open();
+                int i = cmd.ExecuteNonQuery();
+                if (i > 0)
+                    ketqua = true;
+                else
+                    ketqua = false;
+            }
+            catch (Exception ex)
+            {
+                ketqua = false;
+                throw new ApplicationException("ERROR: " + ex);
+            }
+            return ketqua;
+        }
+
+        public bool DeleteLoaixe(byte loaixeID)
+        {
+            bool ketqua = false;
+            try
+            {
+                SqlCommand cmd = new SqlCommand("sp_DeleteLoaixe", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@maloaixe", loaixeID);
+                conn.Open();
+                int i = cmd.ExecuteNonQuery();
+                if (i > 0)
+                    ketqua = true;
+                else
+                    ketqua = false;
+            }
+            catch (Exception ex)
+            {
+                ketqua = false;
+                throw new ApplicationException("ERROR: " + ex);
+            }
+            return ketqua;
+        }
+
     }
 }

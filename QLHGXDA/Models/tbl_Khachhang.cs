@@ -95,5 +95,89 @@ namespace QLHGXDA.Models
             conn.Close();
             return dsKhachhang;
         }
+
+        public bool InsertKhachhang(string hoten, string sodt, string diachi, bool gioitinh, DateTime ngaysinh, string soCMND, long taikhoanID, long vexeID)
+        {
+            bool ketqua = false;
+            try
+            {
+                SqlCommand cmd = new SqlCommand("sp_InsertKhachhang", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@hoten", hoten);
+                cmd.Parameters.AddWithValue("@sodt", sodt);
+                cmd.Parameters.AddWithValue("@diachi", diachi);
+                cmd.Parameters.AddWithValue("@gioitinh", gioitinh);
+                cmd.Parameters.AddWithValue("@ngaysinh", ngaysinh);
+                cmd.Parameters.AddWithValue("@soCMND", soCMND);
+                cmd.Parameters.AddWithValue("@mataikhoan", taikhoanID);
+                cmd.Parameters.AddWithValue("@mavexe", vexeID);
+                conn.Open();
+                int i = cmd.ExecuteNonQuery();
+                if (i > 0)
+                    ketqua = true;
+                else
+                    ketqua = false;
+            }
+            catch (Exception ex)
+            {
+                ketqua = false;
+                throw new ApplicationException("ERROR: " + ex);
+            }
+            return ketqua;
+        }
+
+        public bool UpdateKhachhang( long khachhangID,string hoten, string sodt, string diachi, bool gioitinh, DateTime ngaysinh, string soCMND, long taikhoanID, long vexeID)
+        {
+            bool ketqua = false;
+            try
+            {
+                SqlCommand cmd = new SqlCommand("sp_UpdateKhachhang", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@khachhangID", khachhangID);
+                cmd.Parameters.AddWithValue("@hoten", hoten);
+                cmd.Parameters.AddWithValue("@sodt", sodt);
+                cmd.Parameters.AddWithValue("@diachi", diachi);
+                cmd.Parameters.AddWithValue("@gioitinh", gioitinh);
+                cmd.Parameters.AddWithValue("@ngaysinh", ngaysinh);
+                cmd.Parameters.AddWithValue("@soCMND", soCMND);
+                cmd.Parameters.AddWithValue("@mataikhoan", taikhoanID);
+                cmd.Parameters.AddWithValue("@mavexe", vexeID);
+                conn.Open();
+                int i = cmd.ExecuteNonQuery();
+                if (i > 0)
+                    ketqua = true;
+                else
+                    ketqua = false;
+            }
+            catch (Exception ex)
+            {
+                ketqua = false;
+                throw new ApplicationException("ERROR: " + ex);
+            }
+            return ketqua;
+        }
+
+        public bool DeleteKhachhang(long khachhangID)
+        {
+            bool ketqua = false;
+            try
+            {
+                SqlCommand cmd = new SqlCommand("sp_DeleteKhachhang", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@khachhangID", khachhangID);
+                conn.Open();
+                int i = cmd.ExecuteNonQuery();
+                if (i > 0)
+                    ketqua = true;
+                else
+                    ketqua = false;
+            }
+            catch (Exception ex)
+            {
+                ketqua = false;
+                throw new ApplicationException("ERROR: " + ex);
+            }
+            return ketqua;
+        }
     }
 }

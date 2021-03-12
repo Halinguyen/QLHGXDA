@@ -78,5 +78,83 @@ namespace QLHGXDA.Models
             conn.Close();
             return dsGiave;
         }
+        public bool InsertGiave(double giave, byte loaixeID, byte loaiveID,short khunggioID, DateTime ngayapdung )
+        {
+            bool ketqua = false;
+            try
+            {
+                SqlCommand cmd = new SqlCommand("sp_InsertGiave", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@giave", giave);
+                cmd.Parameters.AddWithValue("@maloaixe", loaixeID);
+                cmd.Parameters.AddWithValue("@maloaive", loaiveID);
+                cmd.Parameters.AddWithValue("@khunggio", khunggioID);
+                cmd.Parameters.AddWithValue("@ngayapdung", ngayapdung);
+                conn.Open();
+                int i = cmd.ExecuteNonQuery();
+                if (i > 0)
+                    ketqua = true;
+                else
+                    ketqua = false;
+            }
+            catch (Exception ex)
+            {
+                ketqua = false;
+                throw new ApplicationException("ERROR: " + ex);
+            }
+            return ketqua;
+        }
+
+
+        public bool UpdateGiave(short giaveID,double giave, byte loaixeID, byte loaiveID, short khunggioID, DateTime ngayapdung)
+        {
+            bool ketqua = false;
+            try
+            {
+                SqlCommand cmd = new SqlCommand("sp_UpdateGiave", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@magiave", giaveID);
+                cmd.Parameters.AddWithValue("@giave", giave);
+                cmd.Parameters.AddWithValue("@maloaixe", loaixeID);
+                cmd.Parameters.AddWithValue("@maloaive", loaiveID);
+                cmd.Parameters.AddWithValue("@khunggio", khunggioID);
+                cmd.Parameters.AddWithValue("@ngayapdung", ngayapdung);
+                conn.Open();
+                int i = cmd.ExecuteNonQuery();
+                if (i > 0)
+                    ketqua = true;
+                else
+                    ketqua = false;
+            }
+            catch (Exception ex)
+            {
+                ketqua = false;
+                throw new ApplicationException("ERROR: " + ex);
+            }
+            return ketqua;
+        }
+
+        public bool DeleteGiave(short giaveID)
+        {
+            bool ketqua = false;
+            try
+            {
+                SqlCommand cmd = new SqlCommand("sp_DeleteGiave", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@magiave", giaveID);
+                conn.Open();
+                int i = cmd.ExecuteNonQuery();
+                if (i > 0)
+                    ketqua = true;
+                else
+                    ketqua = false;
+            }
+            catch (Exception ex)
+            {
+                ketqua = false;
+                throw new ApplicationException("ERROR: " + ex);
+            }
+            return ketqua;
+        }
     }
 }

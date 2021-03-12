@@ -69,6 +69,82 @@ namespace QLHGXDA.Models
             }
             conn.Close();
             return dsHoadon;
+        }      
+        public bool InsertHoadon(long khachhangID, short nhanvienID, bool trangthai, DateTime ngaylap)
+        {
+            bool ketqua = false;
+            try
+            {
+                SqlCommand cmd = new SqlCommand("sp_InsertHoadon", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@khachhangID", khachhangID);
+                cmd.Parameters.AddWithValue("@nhanvienID", nhanvienID);
+                cmd.Parameters.AddWithValue("@trangthai", trangthai);
+                cmd.Parameters.AddWithValue("@ngaylap", ngaylap);
+                conn.Open();
+                int i = cmd.ExecuteNonQuery();
+                if (i > 0)
+                    ketqua = true;
+                else
+                    ketqua = false;
+            }
+            catch (Exception ex)
+            {
+                ketqua = false;
+                throw new ApplicationException("ERROR: " + ex);
+            }
+            return ketqua;
+        }
+
+        public bool UpdateHoadon(long hoadonID,long khachhangID, short nhanvienID, bool trangthai, DateTime ngaylap)
+        {
+            bool ketqua = false;
+            try
+            {
+                SqlCommand cmd = new SqlCommand("sp_UpdateHoadon", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@hoadonID", hoadonID);
+                cmd.Parameters.AddWithValue("@khachhangID", khachhangID);
+                cmd.Parameters.AddWithValue("@nhanvienID", nhanvienID);
+                cmd.Parameters.AddWithValue("@trangthai", trangthai);
+                cmd.Parameters.AddWithValue("@ngaylap", ngaylap);
+                conn.Open();
+                int i = cmd.ExecuteNonQuery();
+                if (i > 0)
+                    ketqua = true;
+                else
+                    ketqua = false;
+            }
+            catch (Exception ex)
+            {
+                ketqua = false;
+                throw new ApplicationException("ERROR: " + ex);
+            }
+            return ketqua;
+        }
+
+
+        public bool DeleteHoadon(long hoadonID)
+        {
+            bool ketqua = false;
+            try
+            {
+                SqlCommand cmd = new SqlCommand("sp_DeleteHoadon", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@hoadonID", hoadonID);
+                conn.Open();
+                int i = cmd.ExecuteNonQuery();
+                if (i > 0)
+                    ketqua = true;
+                else
+                    ketqua = false;
+            }
+            catch (Exception ex)
+            {
+                ketqua = false;
+                throw new ApplicationException("ERROR: " + ex);
+            }
+            return ketqua;
         }
     }
 }

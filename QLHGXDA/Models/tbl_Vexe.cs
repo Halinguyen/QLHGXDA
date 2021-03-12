@@ -81,5 +81,83 @@ namespace QLHGXDA.Models
             conn.Close();
             return dsVexe;
         }
+        public bool InsertVexe(string mavexe, DateTime ngaytao, DateTime ngayhethan, byte loaiveID, byte trangthai)
+        {
+            bool ketqua = false;
+            try
+            {
+                SqlCommand cmd = new SqlCommand("sp_InsertVexe", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@mavexe", mavexe);
+                cmd.Parameters.AddWithValue("@ngaytao", ngaytao);
+                cmd.Parameters.AddWithValue("@ngayhethan", ngayhethan);
+                cmd.Parameters.AddWithValue("@loaiveID", loaiveID);
+                cmd.Parameters.AddWithValue("@trangthai", trangthai);
+                conn.Open();
+                int i = cmd.ExecuteNonQuery();
+                if (i > 0)
+                    ketqua = true;
+                else
+                    ketqua = false;
+            }
+            catch (Exception ex)
+            {
+                ketqua = false;
+                throw new ApplicationException("ERROR: " + ex);
+            }
+            return ketqua;
+        }
+
+
+        public bool UpdateVexe(long vexeID,string mavexe, DateTime ngaytao, DateTime ngayhethan, byte loaiveID, byte trangthai)
+        {
+            bool ketqua = false;
+            try
+            {
+                SqlCommand cmd = new SqlCommand("sp_UpdateVexe", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@vexeID", vexeID);
+                cmd.Parameters.AddWithValue("@mavexe", mavexe);
+                cmd.Parameters.AddWithValue("@ngaytao", ngaytao);
+                cmd.Parameters.AddWithValue("@ngayhethan", ngayhethan);
+                cmd.Parameters.AddWithValue("@loaiveID", loaiveID);
+                cmd.Parameters.AddWithValue("@trangthai", trangthai);
+                conn.Open();
+                int i = cmd.ExecuteNonQuery();
+                if (i > 0)
+                    ketqua = true;
+                else
+                    ketqua = false;
+            }
+            catch (Exception ex)
+            {
+                ketqua = false;
+                throw new ApplicationException("ERROR: " + ex);
+            }
+            return ketqua;
+        }
+
+        public bool DeleteVexe(long vexeID)
+        {
+            bool ketqua = false;
+            try
+            {
+                SqlCommand cmd = new SqlCommand("sp_DeleteVexe", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@vexeID", vexeID);
+                conn.Open();
+                int i = cmd.ExecuteNonQuery();
+                if (i > 0)
+                    ketqua = true;
+                else
+                    ketqua = false;
+            }
+            catch (Exception ex)
+            {
+                ketqua = false;
+                throw new ApplicationException("ERROR: " + ex);
+            }
+            return ketqua;
+        }
     }
 }

@@ -87,5 +87,83 @@ namespace QLHGXDA.Models
             conn.Close();
             return dsPhanquyen;
         }
+
+        public bool InsertPhanQuyen(short quyenID, long taikhoanID, DateTime ngaybatdau, DateTime ngayhethan)
+        {
+            bool ketqua = false;
+            try
+            {
+                SqlCommand cmd = new SqlCommand("sp_InsertPhanquyen", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@quyenID", quyenID);
+                cmd.Parameters.AddWithValue("@taikhoanID", taikhoanID);
+                cmd.Parameters.AddWithValue("@ngaybatdau", ngaybatdau);
+                cmd.Parameters.AddWithValue("@ngayhethan", ngayhethan);
+                conn.Open();
+                int i = cmd.ExecuteNonQuery();
+                if (i > 0)
+                    ketqua = true;
+                else
+                    ketqua = false;
+            }
+            catch (Exception ex)
+            {
+                ketqua = false;
+                throw new ApplicationException("ERROR: " + ex);
+            }
+            return ketqua;
+        }
+
+
+
+        public bool UpdatePhanQuyen(short phanquyenID,short quyenID, long taikhoanID, DateTime ngaybatdau, DateTime ngayhethan)
+        {
+            bool ketqua = false;
+            try
+            {
+                SqlCommand cmd = new SqlCommand("sp_UpdatePhanquyen", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@quyenID", quyenID);
+                cmd.Parameters.AddWithValue("@taikhoanID", taikhoanID);
+                cmd.Parameters.AddWithValue("@ngaybatdau", ngaybatdau);
+                cmd.Parameters.AddWithValue("@ngayhethan", ngayhethan);
+                cmd.Parameters.AddWithValue("@phanquyenID", phanquyenID);
+                conn.Open();
+                int i = cmd.ExecuteNonQuery();
+                if (i > 0)
+                    ketqua = true;
+                else
+                    ketqua = false;
+            }
+            catch (Exception ex)
+            {
+                ketqua = false;
+                throw new ApplicationException("ERROR: " + ex);
+            }
+            return ketqua;
+        }
+
+        public bool DeletePhanQuyen(short phanquyenID)
+        {
+            bool ketqua = false;
+            try
+            {
+                SqlCommand cmd = new SqlCommand("sp_DeletePhanquyen", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@phanquyenID", phanquyenID);
+                conn.Open();
+                int i = cmd.ExecuteNonQuery();
+                if (i > 0)
+                    ketqua = true;
+                else
+                    ketqua = false;
+            }
+            catch (Exception ex)
+            {
+                ketqua = false;
+                throw new ApplicationException("ERROR: " + ex);
+            }
+            return ketqua;
+        }
     }
 }

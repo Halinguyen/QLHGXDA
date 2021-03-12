@@ -66,5 +66,81 @@ namespace QLHGXDA.Models
             conn.Close();
             return dscthoadon;
         }
+        public bool InsertCTHD( long vexeID, short giaveID, int soluong, long hoadonID)
+        {
+            bool ketqua = false;
+            try
+            {
+                SqlCommand cmd = new SqlCommand("sp_InsertCTHD", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@vexeID", vexeID);
+                cmd.Parameters.AddWithValue("@giaveID", giaveID);
+                cmd.Parameters.AddWithValue("@soluong", soluong);
+                cmd.Parameters.AddWithValue("@hoadonID", hoadonID);
+                conn.Open();
+                int i = cmd.ExecuteNonQuery();
+                if (i > 0)
+                    ketqua = true;
+                else
+                    ketqua = false;
+            }
+            catch (Exception ex)
+            {
+                ketqua = false;
+                throw new ApplicationException("ERROR: " + ex);
+            }
+            return ketqua;
+        }
+
+
+        public bool UpdateCTHD(long CTHDID,long vexeID, short giaveID, int soluong, long hoadonID)
+        {
+            bool ketqua = false;
+            try
+            {
+                SqlCommand cmd = new SqlCommand("sp_UpdateCTHD", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@maCTHDID", CTHDID);
+                cmd.Parameters.AddWithValue("@vexeID", vexeID);
+                cmd.Parameters.AddWithValue("@giaveID", giaveID);
+                cmd.Parameters.AddWithValue("@soluong", soluong);
+                cmd.Parameters.AddWithValue("@hoadonID", hoadonID);
+                conn.Open();
+                int i = cmd.ExecuteNonQuery();
+                if (i > 0)
+                    ketqua = true;
+                else
+                    ketqua = false;
+            }
+            catch (Exception ex)
+            {
+                ketqua = false;
+                throw new ApplicationException("ERROR: " + ex);
+            }
+            return ketqua;
+        }
+
+        public bool DeleteCTHD(long CTHDID)
+        {
+            bool ketqua = false;
+            try
+            {
+                SqlCommand cmd = new SqlCommand("sp_DeleteCTHD", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@maCTHDID", CTHDID);
+                conn.Open();
+                int i = cmd.ExecuteNonQuery();
+                if (i > 0)
+                    ketqua = true;
+                else
+                    ketqua = false;
+            }
+            catch (Exception ex)
+            {
+                ketqua = false;
+                throw new ApplicationException("ERROR: " + ex);
+            }
+            return ketqua;
+        }
     }
 }
